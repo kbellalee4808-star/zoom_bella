@@ -91,6 +91,13 @@ section.blk{margin-top:36px}
 .flow li:not(:last-child)::after{content:'';position:absolute;left:17px;top:46px;bottom:-12px;width:2px;background:var(--line)}
 .flow .n{width:36px;height:36px;border-radius:50%;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:center;font-family:'GmarketSans',sans-serif;font-weight:700;flex-shrink:0;position:relative;z-index:1}
 
+/* dream */
+.dream{display:grid;gap:10px}
+.dream .d{display:flex;gap:14px;align-items:center;background:linear-gradient(135deg,#fff 0%,var(--gold-soft) 100%);border:1px solid var(--line);border-radius:16px;padding:16px}
+.dream .dn{width:34px;height:34px;border-radius:50%;background:var(--gold);color:var(--navy);display:flex;align-items:center;justify-content:center;font-family:'GmarketSans',sans-serif;font-weight:700;flex-shrink:0}
+.dream .dt{font-size:16px;font-weight:500;color:var(--navy)}
+.dnote{margin-top:12px;font-size:14px;color:var(--muted);text-align:center}
+
 /* questions */
 .qs{display:flex;flex-wrap:wrap;gap:8px}
 .qs span{background:#fff;border:1px solid var(--line);border-radius:999px;padding:9px 14px;font-size:14px}
@@ -189,6 +196,13 @@ footer .sig{margin-top:4px;color:var(--navy);font-weight:500}
   </section>
 
   <section class="blk">
+    <div class="over">BEFORE WE MEET</div>
+    <h2 data-i="dTitle"></h2>
+    <div class="dream" data-dream="dqs"></div>
+    <p class="dnote" data-i="dNote"></p>
+  </section>
+
+  <section class="blk">
     <div class="over">BRING YOUR QUESTIONS</div>
     <h2 data-i="qTitle"></h2>
     <div class="qs" data-chips="qs"></div>
@@ -275,6 +289,9 @@ var T = {
     flowTitle:'30분은 이렇게 흘러가요',
     flowT:['인사 & 서로 소개','크루즈 멤버십이 뭔지','실제 여행 일정·비용 보기','궁금한 것 다 물어보기','나한테 맞는지 같이 보기'],
     flowP:['인사 & 서로 소개','크루즈 멤버십이 뭔지','파트너는 어떻게 하는지','궁금한 것 다 물어보기','나한테 맞는지 같이 보기'],
+    dTitle:'미팅 전에 잠깐, 떠올려보세요 🌅',
+    dqs:['당신의 꿈은 무엇인가요?','시간과 장소에 묶이지 않는다면, 가장 가고 싶은 곳은 어디인가요?','1년 뒤, 어떤 하루를 보내고 있으면 좋겠어요?','가장 이루고 싶은 꿈 하나를 꼽는다면요?'],
+    dNote:'정답은 없어요. 줌에서 이 이야기부터 나눠요 ☕',
     qTitle:'이런 것도 편하게 물어보세요',
     qsT:['처음인데 혼자 가도 괜찮을까요?','비용은 어떻게 나가나요?','영어를 못해도 괜찮을까요?','중간에 그만두면 어떻게 되나요?'],
     qsP:['다른 나라에 살아도 할 수 있나요?','하루에 시간을 얼마나 써야 하나요?','말주변이 없어도 괜찮을까요?','중간에 그만두면 어떻게 되나요?'],
@@ -320,6 +337,9 @@ var T = {
     flowTitle:'How our 30 minutes go',
     flowT:['Hello & introductions','What the cruise membership is','Real trips: schedules & costs','Your questions — all of them','Seeing if it fits you'],
     flowP:['Hello & introductions','What the cruise membership is','How partnering works','Your questions — all of them','Seeing if it fits you'],
+    dTitle:'Before we meet, take a moment 🌅',
+    dqs:['What is your dream?','If time and place didn\'t hold you back, where would you go first?','A year from now, what would your ideal day look like?','If you could make one dream come true, which would it be?'],
+    dNote:'There are no right answers. We\'ll start our chat right here ☕',
     qTitle:'Feel free to ask things like',
     qsT:['Is it okay to go on my own the first time?','How do the costs work?','What if my English isn\'t good?','What happens if I stop?'],
     qsP:['Can I do this from any country?','How much time does it take a day?','What if I\'m not good at explaining?','What happens if I stop?'],
@@ -357,6 +377,7 @@ var T = {
     document.querySelectorAll('[data-i]').forEach(function(el){ el.textContent = L[el.getAttribute('data-i')]; });
     document.querySelectorAll('[data-h]').forEach(function(el){ el.innerHTML = L[el.getAttribute('data-h')]; });
     document.querySelectorAll('[data-cards]').forEach(function(el){ el.innerHTML = cards(L[el.getAttribute('data-cards')]); });
+    document.querySelector('[data-dream="dqs"]').innerHTML = L.dqs.map(function(q,i){return '<div class="d"><span class="dn">'+(i+1)+'</span><span class="dt">'+esc(q)+'</span></div>';}).join('');
     document.querySelectorAll('.lang button').forEach(function(b){ b.classList.toggle('on', b.getAttribute('data-l')===lang); });
 
     // host
