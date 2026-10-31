@@ -226,7 +226,7 @@ var T = {
       var url=CAL[door.getAttribute('data-door')][lang];
       door.querySelector('.ext').href=url;
       var f=door.querySelector('iframe');
-      f.dataset.src=url+'?hide_gdpr_banner=1&background_color=faf7f2&text_color=1f2a37&primary_color=1b3a5c';
+      f.dataset.src=url+'?hide_gdpr_banner=1&hide_event_type_details=1&hide_landing_page_details=1&background_color=faf7f2&text_color=1f2a37&primary_color=1b3a5c';
       if(door.classList.contains('open')) f.src=f.dataset.src;
     });
     document.getElementById('classes').hidden = (lang!=='ko');
