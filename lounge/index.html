@@ -72,6 +72,23 @@ section > h2{font-size:20px;color:var(--navy);margin-bottom:14px}
 .about{display:flex;align-items:center;justify-content:center;gap:6px;min-height:52px;border-radius:14px;border:1.5px solid var(--navy);color:var(--navy);font-weight:700;text-decoration:none;margin-top:30px}
 footer{text-align:center;margin-top:24px;color:var(--muted);font-size:14px}
 
+/* korean pre-form */
+.kform{background:var(--ivory);border:1px solid var(--line);border-radius:16px;padding:18px 16px}
+.kform h4{font-family:'GmarketSans',sans-serif;font-size:17px;color:var(--navy);margin-bottom:4px}
+.kform .sub{font-size:14px;color:var(--muted);margin-bottom:12px}
+.kform label{display:block;font-size:15px;font-weight:700;color:var(--navy);margin:12px 0 6px}
+.kform label small{font-weight:400;color:var(--muted)}
+.kform input,.kform textarea{width:100%;min-height:54px;border:1.5px solid var(--line);border-radius:12px;padding:12px 14px;font:inherit;font-size:17px;background:#fff;color:var(--ink)}
+.kform textarea{min-height:84px;resize:vertical}
+.kform input:focus,.kform textarea:focus{outline:none;border-color:var(--gold)}
+.kform .err{margin-top:10px;color:#b5482b;font-size:14px;font-weight:700}
+.kform .nextb{margin-top:16px;width:100%;min-height:58px;border:0;border-radius:14px;background:var(--navy);color:#fff;font-family:'GmarketSans',sans-serif;font-size:18px;font-weight:700;cursor:pointer}
+.guide{background:#fff6dd;border:1.5px solid var(--gold);border-radius:14px;padding:14px 16px;margin-bottom:10px;font-size:15px;line-height:1.7;color:var(--ink)}
+.guide b{color:var(--navy)}
+.guide .en{display:inline-block;background:var(--navy);color:#fff;border-radius:8px;padding:0 8px;font-size:14px;font-weight:700}
+.back{margin-top:8px;border:0;background:transparent;color:var(--navy);font:inherit;font-size:14px;font-weight:700;text-decoration:underline;cursor:pointer;min-height:44px}
+.help{margin-top:12px;font-size:14px;color:var(--muted);background:var(--ivory);border-radius:12px;padding:10px 12px}
+
 @media (max-width:360px){.hero h1{font-size:24px}.door-h b{font-size:16px}.cal{height:660px}}
 </style>
 </head>
@@ -105,8 +122,14 @@ footer{text-align:center;margin-top:24px;color:var(--muted);font-size:14px}
       </button>
       <div class="door-b" hidden>
         <div class="steps" data-steps></div>
-        <iframe class="cal" title="booking" loading="lazy"></iframe>
-        <p class="note" data-i="calNote"></p>
+        <form class="kform" novalidate></form>
+        <div class="calwrap" hidden>
+          <div class="guide" data-guide></div>
+          <iframe class="cal" title="booking" loading="lazy"></iframe>
+          <p class="note" data-i="calNote"></p>
+          <button type="button" class="back" data-i="back"></button>
+        </div>
+        <p class="help" data-i="help"></p>
         <a class="ext" target="_blank" rel="noopener" data-i="newTab"></a>
       </div>
     </div>
@@ -118,8 +141,14 @@ footer{text-align:center;margin-top:24px;color:var(--muted);font-size:14px}
       </button>
       <div class="door-b" hidden>
         <div class="steps" data-steps></div>
-        <iframe class="cal" title="booking" loading="lazy"></iframe>
-        <p class="note" data-i="calNote"></p>
+        <form class="kform" novalidate></form>
+        <div class="calwrap" hidden>
+          <div class="guide" data-guide></div>
+          <iframe class="cal" title="booking" loading="lazy"></iframe>
+          <p class="note" data-i="calNote"></p>
+          <button type="button" class="back" data-i="back"></button>
+        </div>
+        <p class="help" data-i="help"></p>
         <a class="ext" target="_blank" rel="noopener" data-i="newTab"></a>
       </div>
     </div>
@@ -164,8 +193,17 @@ var T = {
        nowK:'지금 벨라가 있는 곳', nowT:'벨라의 현재 시간',
        meetH:'1:1로 만나요', d1:'처음 만나요', d1s:'벨라와 처음 만나는 30분 줌 미팅',
        d2:'크루즈클럽', d2s:'크루즈클럽 멤버·파트너 1:1 미팅',
-       steps:['① 날짜','② 시간','③ 이름·이메일','④ 완료 → 메일로 줌 링크'],
-       calNote:'시간은 자동으로 내 나라 시간으로 보여요. 예약 화면 버튼은 영어로 나와요.',
+       steps:['① 내 정보','② 날짜','③ 시간','④ 예약 완료 → 메일로 줌 링크'],
+       calNote:'시간은 자동으로 내 나라 시간으로 보여요.',
+       back:'← 내 정보 다시 쓰기',
+       help:'예약이 어려우시면 소개해 준 분께 "대신 예약해 주세요"라고 말씀해 주세요 😊',
+       formH:'먼저 내 정보를 적어주세요', formSub:'한 번만 적으면 다음 화면에 자동으로 채워져요',
+       fName:'이름', fEmail:'이메일', fEmailPh:'예) bella@gmail.com', opt:'(선택)',
+       fields:{ first:[['ref','소개해 준 분',''],['q','당신의 꿈은 무엇인가요?','']],
+                club:[['q','요즘 가장 고민되는 것','']] },
+       nextBtn:'다음 → 날짜 고르기', errName:'이름을 적어주세요', errEmail:'이메일 주소를 다시 확인해 주세요',
+       guide:'<b>📌 이렇게만 누르세요</b><br>① 달력에서 <b>날짜 숫자</b> 누르기<br>② 원하는 <b>시간</b> 누르기<br>③ <span class="en">Next</span> = <b>다음</b> 누르기<br>④ 파란 <span class="en">Schedule Event</span> = <b>예약 완료</b> 누르면 끝!<br><small>이름·이메일은 이미 채워져 있어요. <b>Add guests</b>는 안 눌러도 돼요.</small>',
+       refLabel:'소개', qLabel:{first:'꿈',club:'고민'},
        newTab:'예약 화면이 안 보이면 새 창으로 열기 ↗',
        classH:'줌 강의실', next:'다음 강의', kst:'한국 시간', left:'남음', live:'지금 강의 중이에요!',
        soon:'곧 시작해요!', enter:'📲 지금 입장하기', locked:'시작 10분 전에 입장 버튼이 열려요',
@@ -178,6 +216,7 @@ var T = {
        steps:['① Date','② Time','③ Name & email','④ Done → Zoom link by email'],
        calNote:'Times are shown in your own time zone automatically.',
        newTab:"Can't see the calendar? Open in a new tab ↗",
+       back:'', help:'',
        classH:'', about:'👋 Get to know Bella first', foot:'· Bella Cruise Nomad 🛳 ·' }
 };
 
@@ -223,11 +262,27 @@ var T = {
     document.querySelectorAll('[data-steps]').forEach(function(el){ el.innerHTML=L.steps.map(function(s){return '<span>'+esc(s)+'</span>';}).join(''); });
     document.querySelectorAll('.lang button').forEach(function(b){ b.classList.toggle('on', b.getAttribute('data-l')===lang); });
     document.querySelectorAll('[data-door]').forEach(function(door){
-      var url=CAL[door.getAttribute('data-door')][lang];
+      var key=door.getAttribute('data-door'), url=CAL[key][lang];
       door.querySelector('.ext').href=url;
-      var f=door.querySelector('iframe');
-      f.dataset.src=url+'?hide_gdpr_banner=1&hide_event_type_details=1&hide_landing_page_details=1&background_color=faf7f2&text_color=1f2a37&primary_color=1b3a5c';
-      if(door.classList.contains('open')) f.src=f.dataset.src;
+      door.dataset.base=url+'?hide_gdpr_banner=1&hide_event_type_details=1&hide_landing_page_details=1&background_color=faf7f2&text_color=1f2a37&primary_color=1b3a5c';
+      var form=door.querySelector('.kform'), wrap=door.querySelector('.calwrap'), help=door.querySelector('.help');
+      door.querySelector('[data-guide]').innerHTML = lang==='ko' ? L.guide : '';
+      door.querySelector('[data-guide]').hidden = lang!=='ko';
+      help.hidden = lang!=='ko';
+      if(lang==='ko'){
+        var extra=(L.fields[key]||[]).map(function(fd){
+          return '<label>'+esc(fd[1])+' <small>'+L.opt+'</small></label><textarea name="'+fd[0]+'" rows="2"></textarea>';
+        }).join('');
+        form.innerHTML='<h4>'+L.formH+'</h4><p class="sub">'+L.formSub+'</p>'+
+          '<label>'+L.fName+' *</label><input name="name" autocomplete="name">'+
+          '<label>'+L.fEmail+' *</label><input name="email" type="email" inputmode="email" autocomplete="email" autocapitalize="off" placeholder="'+L.fEmailPh+'">'+
+          extra+'<p class="err" hidden></p><button type="submit" class="nextb">'+L.nextBtn+'</button>';
+        form.hidden=false; wrap.hidden=true;
+        door.querySelector('iframe').removeAttribute('src');
+      } else {
+        form.innerHTML=''; form.hidden=true; wrap.hidden=false;
+        if(door.classList.contains('open')) door.querySelector('iframe').src=door.dataset.base;
+      }
     });
     document.getElementById('classes').hidden = (lang!=='ko');
     document.getElementById('aboutLink').href = ABOUT + (lang==='en'?'?lang=en':'');
@@ -268,11 +323,34 @@ var T = {
       var door=btn.parentNode, body=door.querySelector('.door-b'), f=door.querySelector('iframe');
       var open=!door.classList.contains('open');
       door.classList.toggle('open',open); body.hidden=!open;
-      if(open && !f.getAttribute('src')) f.src=f.dataset.src;
+      if(open && lang!=='ko' && !f.getAttribute('src')) f.src=door.dataset.base;
+      if(open && lang==='ko'){ var first=door.querySelector('.kform input'); if(first && !door.querySelector('.calwrap').hidden===false) setTimeout(function(){ try{first.focus({preventScroll:true});}catch(e){} },50); }
     });
   });
   document.querySelectorAll('.lang button').forEach(function(b){
     b.addEventListener('click',function(){ lang=b.getAttribute('data-l'); store('lounge_lang',lang); render(); });
+  });
+  document.querySelectorAll('[data-door]').forEach(function(door){
+    var key=door.getAttribute('data-door'), form=door.querySelector('.kform');
+    form.addEventListener('submit',function(ev){
+      ev.preventDefault();
+      var L=T[lang], err=form.querySelector('.err');
+      var name=(form.name.value||'').trim(), email=(form.email.value||'').trim();
+      if(!name){ err.textContent=L.errName; err.hidden=false; form.name.focus(); return; }
+      if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ err.textContent=L.errEmail; err.hidden=false; form.email.focus(); return; }
+      err.hidden=true;
+      var notes=[];
+      if(form.ref && form.ref.value.trim()) notes.push(L.refLabel+': '+form.ref.value.trim());
+      if(form.q && form.q.value.trim()) notes.push(L.qLabel[key]+': '+form.q.value.trim());
+      var src=door.dataset.base+'&name='+encodeURIComponent(name)+'&email='+encodeURIComponent(email)+(notes.length?'&a1='+encodeURIComponent(notes.join('\n')):'');
+      door.querySelector('iframe').src=src;
+      form.hidden=true; door.querySelector('.calwrap').hidden=false;
+      door.querySelector('.calwrap').scrollIntoView({behavior:'smooth',block:'start'});
+    });
+    door.querySelector('.back').addEventListener('click',function(){
+      door.querySelector('.calwrap').hidden=true; form.hidden=false;
+      form.scrollIntoView({behavior:'smooth',block:'start'});
+    });
   });
   var want=params.get('door');
   render();
